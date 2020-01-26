@@ -3,6 +3,8 @@ const ews = require('express-ws');
 
 class InboundStreamWrapper {
   start({ url, additionalFlags = [] }) {
+    if (this.verbose) console.log('[rtsp-relay] Creating brand new stream');
+
     this.stream = spawn(
       'ffmpeg',
       [
@@ -23,7 +25,7 @@ class InboundStreamWrapper {
       if (signal !== 'SIGTERM') {
         if (this.verbose) {
           console.warn(
-            'Stream died - will recreate when the next client connects',
+            '[rtsp-relay] Stream died - will recreate when the next client connects',
           );
         }
         this.stream = null;
@@ -38,18 +40,24 @@ class InboundStreamWrapper {
   }
 
   kill(clientsLeft) {
-    if (this.verbose) console.log('kill', { clientsLeft });
     if (!this.stream) return; // the stream is currently dead
     if (!clientsLeft) {
+      if (this.verbose)
+        console.log('[rtsp-relay] no clients left; destroying stream');
       this.stream.kill('SIGTERM');
       this.stream = null;
       // next time it is requested it will be recreated
     }
+    if (this.verbose)
+      console.log(
+        '[rtsp-relay] there are still some clients so not destroying stream',
+      );
   }
 }
 
+let wsInstance;
 module.exports = (app, { url, additionalFlags, verbose }) => {
-  const wsInstance = ews(app);
+  if (!wsInstance) wsInstance = ews(app);
   const wsServer = wsInstance.getWss();
   const Inbound = new InboundStreamWrapper();
 
@@ -65,11 +73,12 @@ module.exports = (app, { url, additionalFlags, verbose }) => {
     streamHeader.writeUInt16BE(height, 6);
     ws.send(streamHeader, { binary: true });
 
-    if (verbose) console.log('New WebSocket Connection');
+    if (verbose) console.log('[rtsp-relay] New WebSocket Connection');
     const streamIn = Inbound.get({ url, additionalFlags, verbose });
     ws.on('close', () => {
-      if (verbose) console.log('Disconnected WebSocket');
-      Inbound.kill(wsServer.clients.size);
+      const c = wsServer.clients.size;
+      if (verbose) console.log(`[rtsp-relay] WebSocket Disconnected ${c} left`);
+      Inbound.kill(c);
     });
 
     streamIn.stdout.on('data', (data, opts) => {

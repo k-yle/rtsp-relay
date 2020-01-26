@@ -1,0 +1,53 @@
+{
+  "name": "rtsp-relay",
+  "version": "1.0.0",
+  "author": "Kyle Hensel",
+  "license": "MIT",
+  "description": "📽 Relay an RTSP stream through an existing express.js server",
+  "main": "index.js",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "repository": "https://github.com/k-yle/rtsp-relay",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "rtsp",
+    "rtsp-stream",
+    "stream",
+    "websocket",
+    "ws",
+    "express",
+    "ffmpeg",
+    "jsmpeg"
+  ],
+  "scripts": {
+    "test": "eslint index.js",
+    "trypublish": "npm publish || true"
+  },
+  "dependencies": {
+    "express-ws": "^4.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb-base",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": "error",
+      "no-console": "off"
+    }
+  }
+}

@@ -1,5 +1,8 @@
 # 📽 RTSP Relay
 
+[![Build Status](https://github.com/k-yle/rtsp-relay/workflows/build/badge.svg)](https://github.com/k-yle/rtsp-relay/actions)
+[![npm version](https://badge.fury.io/js/rtsp-relay.svg)](https://badge.fury.io/js/rtsp-relay)
+
 This module allows you to view an RTSP stream in your web browser using an existing express.js server.
 
 Internally, this module uses websockets to create an endpoint in your web server (e.g. `/api/stream`) which relays the RTSP stream using ffmpeg. On the client side, JS-MPEG is used to decode the websocket stream.

@@ -1,4 +1,4 @@
-name: Lint and publish
+name: build
 
 on: [push]
 

@@ -7,6 +7,12 @@ This module allows you to view an RTSP stream in your web browser using an exist
 
 Internally, this module uses websockets to create an endpoint in your web server (e.g. `/api/stream`) which relays the RTSP stream using ffmpeg. On the client side, JS-MPEG is used to decode the websocket stream.
 
+The module handles all the complications that unreliable connections introduce:
+
+- if the connection between `server` <=> `RTSP stream` is disconnected, it will automatically be reconnected when available
+- if the connection between `client` <=> `server` is disconnected, the client will keep trying to reconnect
+- if multiple clients connect, only one instance of the RTSP stream is consumed to improve performance (one-to-many)
+
 ## Install
 
 > ⚠ You need to install [ffmpeg](https://www.ffmpeg.org/download.html) on your computer first.
@@ -18,18 +24,19 @@ npm install -S rtsp-relay express
 ## Example
 
 ```js
-const RTSPRelay = require('rtsp-relay');
 const express = require('express');
 const app = express();
 
-const proxy = RTSPRelay(app, {
+const { proxy } = require('rtsp-relay')(app);
+
+const handler = proxy({
   url: `rtsp://admin:admin@10.0.1.2:554/feed`,
   // if your RTSP stream need credentials, include them in the URL as above
   verbose: false,
 });
 
 // the endpoint our RTSP uses
-app.ws('/api/stream', proxy);
+app.ws('/api/stream', handler);
 
 // this is an example html page to view the stream
 app.get('/', (req, res) =>

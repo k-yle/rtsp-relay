@@ -1,8 +1,9 @@
 const { spawn } = require('child_process');
 const ews = require('express-ws');
+const ps = require('ps-node');
 
 class InboundStreamWrapper {
-  start({ url, additionalFlags = [] }) {
+  start({ url, additionalFlags }) {
     if (this.verbose) console.log('[rtsp-relay] Creating brand new stream');
 
     this.stream = spawn(
@@ -56,33 +57,49 @@ class InboundStreamWrapper {
 }
 
 let wsInstance;
-module.exports = (app, { url, additionalFlags, verbose }) => {
+module.exports = app => {
   if (!wsInstance) wsInstance = ews(app);
   const wsServer = wsInstance.getWss();
+
+  // even if there are multiple feeds being consumed
+  // by this app, only allow one open at a time
   const Inbound = new InboundStreamWrapper();
 
-  return function VideoStream(ws) {
-    if (!url) throw new Error('URL to rtsp stream is required');
+  return {
+    killAll() {
+      ps.lookup({ command: 'ffmpeg' }, (err, list) => {
+        if (err) throw err;
+        list
+          .filter(p => p.arguments.includes('mpeg1video'))
+          .forEach(({ pid }) => ps.kill(pid));
+      });
+    },
+    proxy({ url, additionalFlags = [], verbose }) {
+      return function handler(ws) {
+        if (!url) throw new Error('URL to rtsp stream is required');
 
-    // these should be detected from the source stream
-    const [width, height] = [0, 0];
+        // these should be detected from the source stream
+        const [width, height] = [0, 0];
 
-    const streamHeader = Buffer.alloc(8);
-    streamHeader.write('jsmp');
-    streamHeader.writeUInt16BE(width, 4);
-    streamHeader.writeUInt16BE(height, 6);
-    ws.send(streamHeader, { binary: true });
+        const streamHeader = Buffer.alloc(8);
+        streamHeader.write('jsmp');
+        streamHeader.writeUInt16BE(width, 4);
+        streamHeader.writeUInt16BE(height, 6);
+        ws.send(streamHeader, { binary: true });
 
-    if (verbose) console.log('[rtsp-relay] New WebSocket Connection');
-    const streamIn = Inbound.get({ url, additionalFlags, verbose });
-    ws.on('close', () => {
-      const c = wsServer.clients.size;
-      if (verbose) console.log(`[rtsp-relay] WebSocket Disconnected ${c} left`);
-      Inbound.kill(c);
-    });
+        if (verbose) console.log('[rtsp-relay] New WebSocket Connection');
+        const streamIn = Inbound.get({ url, additionalFlags, verbose });
+        ws.on('close', () => {
+          const c = wsServer.clients.size;
+          if (verbose)
+            console.log(`[rtsp-relay] WebSocket Disconnected ${c} left`);
+          Inbound.kill(c);
+        });
 
-    streamIn.stdout.on('data', (data, opts) => {
-      if (ws.readyState === 1) ws.send(data, opts);
-    });
+        streamIn.stdout.on('data', (data, opts) => {
+          if (ws.readyState === 1) ws.send(data, opts);
+        });
+      };
+    },
   };
 };

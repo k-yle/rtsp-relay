@@ -20,8 +20,11 @@ class InboundStreamWrapper {
         ...additionalFlags,
         '-',
       ],
-      { detached: false },
+      { detached: false, stdio: 'ignore' },
     );
+    this.stream.stderr.on('data', () => {});
+    this.stream.stderr.on('error', e => console.log('err:error', e));
+    this.stream.stdout.on('error', e => console.log('out:error', e));
     this.stream.on('exit', (code, signal) => {
       if (signal !== 'SIGTERM') {
         if (this.verbose) {

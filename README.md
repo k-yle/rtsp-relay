@@ -15,17 +15,11 @@ The module handles all the complications that unreliable connections introduce:
 
 ## Install
 
-<details>
-  <summary>⚠ You need to install <a href="https://www.ffmpeg.org/download.html">ffmpeg</a> on your computer first</summary>
-
-- Windows: `choco install -y ffmpeg` (if you have chocolately)
-- macOS: `brew install ffmpeg`
-- Linux: `sudo apt-get install -y ffmpeg`
-  </details>
-
 ```sh
 npm install -S rtsp-relay express
 ```
+
+You don't need to install ffmpeg!
 
 ## Example
 

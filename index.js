@@ -1,3 +1,5 @@
+// @ts-check
+const { path: ffmpegPath } = require('@ffmpeg-installer/ffmpeg');
 const { spawn } = require('child_process');
 const ews = require('express-ws');
 const ps = require('ps-node');
@@ -7,7 +9,7 @@ class InboundStreamWrapper {
     if (this.verbose) console.log('[rtsp-relay] Creating brand new stream');
 
     this.stream = spawn(
-      'ffmpeg',
+      ffmpegPath,
       [
         '-i',
         url,
@@ -20,11 +22,11 @@ class InboundStreamWrapper {
         ...additionalFlags,
         '-',
       ],
-      { detached: false, stdio: 'ignore' },
+      { detached: false },
     );
     this.stream.stderr.on('data', () => {});
-    this.stream.stderr.on('error', e => console.log('err:error', e));
-    this.stream.stdout.on('error', e => console.log('out:error', e));
+    this.stream.stderr.on('error', (e) => console.log('err:error', e));
+    this.stream.stdout.on('error', (e) => console.log('out:error', e));
     this.stream.on('exit', (code, signal) => {
       if (signal !== 'SIGTERM') {
         if (this.verbose) {
@@ -60,7 +62,7 @@ class InboundStreamWrapper {
 }
 
 let wsInstance;
-module.exports = app => {
+module.exports = (app) => {
   if (!wsInstance) wsInstance = ews(app);
   const wsServer = wsInstance.getWss();
 
@@ -73,7 +75,7 @@ module.exports = app => {
       ps.lookup({ command: 'ffmpeg' }, (err, list) => {
         if (err) throw err;
         list
-          .filter(p => p.arguments.includes('mpeg1video'))
+          .filter((p) => p.arguments.includes('mpeg1video'))
           .forEach(({ pid }) => ps.kill(pid));
       });
     },

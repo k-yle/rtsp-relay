@@ -1,6 +1,6 @@
 {
   "name": "rtsp-relay",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Kyle Hensel",
   "license": "MIT",
   "description": "📽 Relay an RTSP stream through an existing express.js server",
@@ -27,28 +27,16 @@
     "trypublish": "npm publish || true"
   },
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.0.20",
     "express-ws": "^4.0.0",
     "ps-node": "^0.1.6"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-config-prettier": "^6.9.0",
-    "eslint-plugin-import": "^2.20.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "prettier": "^1.19.1"
+    "eslint-config-kyle": "^1.0.8",
+    "typescript": "^3.8.3"
   },
   "eslintConfig": {
-    "extends": [
-      "airbnb-base",
-      "prettier"
-    ],
-    "plugins": [
-      "prettier"
-    ],
-    "rules": {
-      "prettier/prettier": "error",
-      "no-console": "off"
-    }
+    "extends": "kyle"
   }
 }

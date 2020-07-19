@@ -1,6 +1,6 @@
 {
   "name": "rtsp-relay",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "Kyle Hensel",
   "license": "MIT",
   "description": "📽 Relay an RTSP stream through an existing express.js server",

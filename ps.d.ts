@@ -1,5 +1,5 @@
 declare module 'ps-node' {
-  declare interface Program {
+  interface Program {
     arguments: string[];
     pid: number;
   }
@@ -10,4 +10,8 @@ declare module 'ps-node' {
   ): void;
 
   export function kill(pID: number): void;
+}
+
+declare module '@ffmpeg-installer/ffmpeg' {
+  export const path: string;
 }

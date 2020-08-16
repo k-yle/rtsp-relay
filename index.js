@@ -4,8 +4,20 @@ const { spawn } = require('child_process');
 const ews = require('express-ws');
 const ps = require('ps-node');
 
+/**
+ * @typedef {{
+ *  url: string;
+ *  additionalFlags?: string[];
+ *  verbose?: boolean;
+ * }} Options
+ *
+ * @typedef {import("express").Application} Application
+ * @typedef {import("ws")} WebSocket
+ */
+
 class InboundStreamWrapper {
-  start({ url, additionalFlags }) {
+  /** @param {Options} props */
+  start({ url, additionalFlags = [] }) {
     if (this.verbose) console.log('[rtsp-relay] Creating brand new stream');
 
     this.stream = spawn(
@@ -27,7 +39,13 @@ class InboundStreamWrapper {
     this.stream.stderr.on('data', () => {});
     this.stream.stderr.on('error', (e) => console.log('err:error', e));
     this.stream.stdout.on('error', (e) => console.log('out:error', e));
-    this.stream.on('exit', (code, signal) => {
+    this.stream.on('error', (err) => {
+      if (this.verbose) {
+        console.warn(`[rtsp-relay] Internal Error: ${err.message}`);
+      }
+    });
+
+    this.stream.on('exit', (_code, signal) => {
       if (signal !== 'SIGTERM') {
         if (this.verbose) {
           console.warn(
@@ -39,12 +57,14 @@ class InboundStreamWrapper {
     });
   }
 
+  /** @param {Options} options */
   get(options) {
     this.verbose = options.verbose;
     if (!this.stream) this.start(options);
     return this.stream;
   }
 
+  /** @param {number} clientsLeft */
   kill(clientsLeft) {
     if (!this.stream) return; // the stream is currently dead
     if (!clientsLeft) {
@@ -61,7 +81,10 @@ class InboundStreamWrapper {
   }
 }
 
+/** @type {ReturnType<ews>} */
 let wsInstance;
+
+/** @param {Application} app */
 module.exports = (app) => {
   if (!wsInstance) wsInstance = ews(app);
   const wsServer = wsInstance.getWss();
@@ -79,8 +102,10 @@ module.exports = (app) => {
           .forEach(({ pid }) => ps.kill(pid));
       });
     },
+    /** @param {Options} props */
     proxy({ url, additionalFlags = [], verbose }) {
-      return function handler(ws) {
+      /** @param {WebSocket} ws */
+      function handler(ws) {
         if (!url) throw new Error('URL to rtsp stream is required');
 
         // these should be detected from the source stream
@@ -101,10 +126,12 @@ module.exports = (app) => {
           Inbound.kill(c);
         });
 
+        // @ts-expect-error will fix later
         streamIn.stdout.on('data', (data, opts) => {
           if (ws.readyState === 1) ws.send(data, opts);
         });
-      };
+      }
+      return handler;
     },
   };
 };

@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [8.x, 10.x, 12.x, 14.x, 15.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -26,6 +26,7 @@ jobs:
           CI: true
 
       - name: npm publish
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: |
           npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
           npm run trypublish

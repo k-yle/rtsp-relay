@@ -18,12 +18,31 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: npm install and test
+      - name: npm install
         run: |
           npm install
+
+      - name: npm lint
+        run: |
+          npm run lint
+
+      - name: npm test
+        run: |
           npm test
         env:
-          CI: true
+          FORCE_COLOR: 1
+
+      - name: Upload failed screenshot tests
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: screenshots
+          path: test/__image_snapshots__/__diff_output__/*
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@v1.0.1
+        with:
+          github-token: ${{ secrets.github_token }}
 
       - name: npm publish
         if: ${{ github.ref == 'refs/heads/main' }}

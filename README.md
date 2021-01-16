@@ -1,6 +1,7 @@
 # 📽 RTSP Relay
 
 [![Build Status](https://github.com/k-yle/rtsp-relay/workflows/build/badge.svg)](https://github.com/k-yle/rtsp-relay/actions)
+[![Coverage Status](https://coveralls.io/repos/github/k-yle/rtsp-relay/badge.svg?branch=main)](https://coveralls.io/github/k-yle/rtsp-relay?branch=main)
 [![npm version](https://badge.fury.io/js/rtsp-relay.svg)](https://badge.fury.io/js/rtsp-relay)
 
 This module allows you to view an RTSP stream in your web browser using an existing express.js server.
@@ -56,3 +57,9 @@ app.listen(2000);
 ```
 
 Open [http://localhost:2000](http://localhost:2000) in your web browser.
+
+## Contributing
+
+We have end-to-end tests to ensure that the module actually works. These tests spin up a RTSP server using [aler9/rtsp-simple-server](https://github.com/aler9/rtsp-simple-server) and create several different streams for testing. These tests are far from complete.
+
+To make developing easier, run `node test/setupTests`. This creates two RTSP streams that can be used instead of real IP cameras (`rtsp://localhost:8554/sync-test-1` and `rtsp://localhost:8554/sync-test-2`).

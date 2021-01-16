@@ -17,7 +17,7 @@ describe('end-to-end tests', () => {
     const image = await page.screenshot({ fullPage: true });
     expect(image).toMatchImageSnapshot({
       failureThresholdType: 'percent',
-      failureThreshold: 0.5,
+      failureThreshold: 0.75,
     });
 
     await browser.close();
@@ -35,11 +35,11 @@ describe('end-to-end tests', () => {
     const image = await page.screenshot({ fullPage: true });
     expect(image).toMatchImageSnapshot({
       failureThresholdType: 'percent',
-      failureThreshold: 0.5,
+      failureThreshold: 0.75,
     });
 
     await browser.close();
   });
 });
 
-afterAll(global.teardown);
+// afterAll(global.teardown);

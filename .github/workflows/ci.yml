@@ -29,6 +29,15 @@ jobs:
       - name: npm test
         run: |
           npm test
+        env:
+          FORCE_COLOR: 1
+
+      - name: Upload failed screenshot tests
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: screenshots
+          path: test/__image_snapshots__/__diff_output__/*
 
       - name: Coveralls
         uses: coverallsapp/github-action@v1.0.1

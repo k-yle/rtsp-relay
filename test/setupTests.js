@@ -1,30 +1,41 @@
 const express = require('express');
 const { spawn } = require('child_process');
+const { path: ffmpegPath } = require('@ffmpeg-installer/ffmpeg');
+const { join } = require('path');
 const rtspRelay = require('..');
 
-const rtspServer = spawn('rtsp-simple-server');
+console.log(`Setting up RTSP server on ${process.platform} (${process.arch})`);
+
+const rtspServer = spawn(
+  process.platform === 'win32'
+    ? 'rtsp-simple-server' // you need to manually install it on windows
+    : join(__dirname, 'rtsp-simple-server'),
+);
 rtspServer.stdout.pipe(process.stdout);
 rtspServer.stderr.pipe(process.stdout);
+rtspServer.on('error', console.error);
 rtspServer.on('close', process.exit);
 
 const ffmpeg1 = spawn(
-  'ffmpeg',
+  ffmpegPath,
   '-re -stream_loop -1 -i test/video/sync-test-1.ts -c copy -f rtsp rtsp://localhost:8554/sync-test-1 -loglevel error'.split(
     ' ',
   ),
 );
 ffmpeg1.stdout.pipe(process.stdout);
 ffmpeg1.stderr.pipe(process.stdout);
+ffmpeg1.on('error', console.error);
 ffmpeg1.on('close', process.exit);
 
 const ffmpeg2 = spawn(
-  'ffmpeg',
+  ffmpegPath,
   '-re -stream_loop -1 -i test/video/sync-test-2.ts -c copy -f rtsp rtsp://localhost:8554/sync-test-2 -loglevel error'.split(
     ' ',
   ),
 );
 ffmpeg2.stdout.pipe(process.stdout);
 ffmpeg2.stderr.pipe(process.stdout);
+ffmpeg2.on('error', console.error);
 ffmpeg2.on('close', process.exit);
 
 const app = /** @type {import('express-ws').Application} */ (
@@ -84,8 +95,12 @@ app.get('/:n', (req, res) =>
 const server = app.listen(2000, () => console.log('ready'));
 
 global.teardown = () => {
-  rtspServer.kill();
-  ffmpeg1.kill();
-  ffmpeg2.kill();
-  server.close();
+  server.close(async () => {
+    ffmpeg1.kill();
+    ffmpeg2.kill();
+
+    await new Promise((cb) => setTimeout(cb, 1000));
+
+    rtspServer.kill();
+  });
 };

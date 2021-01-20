@@ -89,10 +89,6 @@ module.exports = (app) => {
   if (!wsInstance) wsInstance = ews(app);
   const wsServer = wsInstance.getWss();
 
-  // even if there are multiple feeds being consumed
-  // by this app, only allow one open at a time
-  const Inbound = new InboundStreamWrapper();
-
   return {
     killAll() {
       ps.lookup({ command: 'ffmpeg' }, (err, list) => {
@@ -102,8 +98,11 @@ module.exports = (app) => {
           .forEach(({ pid }) => ps.kill(pid));
       });
     },
+
     /** @param {Options} props */
     proxy({ url, additionalFlags = [], verbose }) {
+      const Inbound = new InboundStreamWrapper();
+
       /** @param {WebSocket} ws */
       function handler(ws) {
         if (!url) throw new Error('URL to rtsp stream is required');

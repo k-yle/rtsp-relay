@@ -94,6 +94,26 @@ You may see a `MaxListenersExceededWarning` if the relay is re-transmitting 10+ 
 
 This is expected, and you can silence the warning by adding `process.setMaxListeners(0);` to your code.
 
+### Improving the video quality
+
+Depending on your network configuration, you can try add the following `additionalOptions` to improve the stream quality:
+
+<!-- prettier-ignore -->
+```js
+app.ws('/api/stream', proxy({
+  additionalOptions: [
+
+    // try this:
+    '-rtsp_transport', 'tcp',
+
+    // or this:
+    '-q', '1',
+  ],
+}));
+```
+
+Note that both these methods will use more bandwidth.
+
 ### SSL
 
 If you want to use HTTPS, you will need to change the stream URL to `wss://`, like the following example:

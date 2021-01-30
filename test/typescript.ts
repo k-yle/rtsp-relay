@@ -20,6 +20,13 @@ const handler = proxy({
 // the endpoint our RTSP uses
 app.ws('/api/stream', handler);
 
+// dynamic URL test
+app.ws('/api/stream-many/:cameraIP', (ws, req) =>
+  proxy({
+    url: `rtsp://${req.params.cameraIP}:554/feed`,
+  })(ws),
+);
+
 // this is an example html page to view the stream
 app.get('/', (_req, res) =>
   res.send(`

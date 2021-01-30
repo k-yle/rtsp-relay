@@ -8,6 +8,24 @@ expect.extend({ toMatchImageSnapshot });
 const timeout = (ms) => new Promise((cb) => setTimeout(cb, ms));
 
 describe('end-to-end tests', () => {
+  it('works from react', async () => {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto('http://localhost:2000/react.html', {
+      waitUntil: 'networkidle2',
+    });
+
+    await timeout(1000);
+
+    const image = await page.screenshot({ fullPage: true });
+    expect(image).toMatchImageSnapshot({
+      failureThresholdType: 'percent',
+      failureThreshold: 0.75,
+    });
+
+    await browser.close();
+  });
+
   it('proxys sync test 1 and renders it in the browser', async () => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -52,24 +70,6 @@ describe('end-to-end tests', () => {
     });
 
     await timeout(5000);
-
-    const image = await page.screenshot({ fullPage: true });
-    expect(image).toMatchImageSnapshot({
-      failureThresholdType: 'percent',
-      failureThreshold: 0.75,
-    });
-
-    await browser.close();
-  });
-
-  it('works from react', async () => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto('http://localhost:2000/react.html', {
-      waitUntil: 'networkidle2',
-    });
-
-    await timeout(1000);
 
     const image = await page.screenshot({ fullPage: true });
     expect(image).toMatchImageSnapshot({

@@ -59,22 +59,12 @@ app.use((_req, res, next) => {
   next();
 });
 
-app.ws(
-  '/api/stream/1',
+app.ws('/api/stream/:n', (ws, req) =>
   proxy({
-    url: `rtsp://localhost:8554/sync-test-1`,
+    url: `rtsp://localhost:8554/sync-test-${req.params.n}`,
     verbose: true,
     additionalFlags: ['-loglevel', 'error'],
-  }),
-);
-
-app.ws(
-  '/api/stream/2',
-  proxy({
-    url: `rtsp://localhost:8554/sync-test-2`,
-    verbose: true,
-    additionalFlags: ['-loglevel', 'error'],
-  }),
+  })(ws),
 );
 
 app.use(express.static('browser'));

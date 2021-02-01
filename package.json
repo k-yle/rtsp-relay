@@ -1,6 +1,6 @@
 {
   "name": "rtsp-relay",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "Kyle Hensel",
   "license": "MIT",
   "description": "📽 Relay an RTSP stream through an existing express.js server",
@@ -23,7 +23,7 @@
     "jsmpeg"
   ],
   "scripts": {
-    "postinstall": "chmod u+x test/rtsp-simple-server",
+    "pretest": "chmod u+x test/rtsp-simple-server",
     "lint": "eslint --format pretty --ext .js --ignore-path .gitignore .",
     "test": "tsc && jest",
     "trypublish": "npm publish || true"

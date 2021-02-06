@@ -4,6 +4,13 @@ const { path: ffmpegPath } = require('@ffmpeg-installer/ffmpeg');
 const { join } = require('path');
 const rtspRelay = require('..');
 
+process.on('warning', (err) => {
+  if (err.name === 'MaxListenersExceededWarning') {
+    console.log(err.stack);
+    console.trace();
+  }
+});
+
 console.log(`Setting up RTSP server on ${process.platform} (${process.arch})`);
 
 const rtspServer = spawn(

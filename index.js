@@ -13,6 +13,7 @@ const ps = require('ps-node');
  *
  * @typedef {import("express").Application} Application
  * @typedef {import("ws")} WebSocket
+ * @typedef {import("child_process").ChildProcessWithoutNullStreams} Stream
  */
 
 class InboundStreamWrapper {
@@ -25,9 +26,9 @@ class InboundStreamWrapper {
       [
         '-i',
         url,
-        '-f',
+        '-f', // force format
         'mpegts',
-        '-codec:v',
+        '-codec:v', // specify video codec (MPEG1 required for jsmpeg)
         'mpeg1video',
         '-r',
         '30', // 30 fps. any lower and the client can't decode it
@@ -61,7 +62,7 @@ class InboundStreamWrapper {
   get(options) {
     this.verbose = options.verbose;
     if (!this.stream) this.start(options);
-    return this.stream;
+    return /** @type {Stream} */ (this.stream);
   }
 
   /** @param {number} clientsLeft */
@@ -89,6 +90,13 @@ module.exports = (app) => {
   if (!wsInstance) wsInstance = ews(app);
   const wsServer = wsInstance.getWss();
 
+  /**
+   * This map stores all the streams in existance, keyed by the URL.
+   * This means we only ever create one InboundStream per URL.
+   * @type {{ [url: string]: InboundStreamWrapper }}
+   */
+  const Inbound = {};
+
   return {
     killAll() {
       ps.lookup({ command: 'ffmpeg' }, (err, list) => {
@@ -101,12 +109,13 @@ module.exports = (app) => {
 
     /** @param {Options} props */
     proxy({ url, additionalFlags = [], verbose }) {
-      const Inbound = new InboundStreamWrapper();
+      if (!url) throw new Error('URL to rtsp stream is required');
+
+      // TODO: node15 use ||=
+      if (!Inbound[url]) Inbound[url] = new InboundStreamWrapper();
 
       /** @param {WebSocket} ws */
       function handler(ws) {
-        if (!url) throw new Error('URL to rtsp stream is required');
-
         // these should be detected from the source stream
         const [width, height] = [0, 0];
 
@@ -117,18 +126,23 @@ module.exports = (app) => {
         ws.send(streamHeader, { binary: true });
 
         if (verbose) console.log('[rtsp-relay] New WebSocket Connection');
-        const streamIn = Inbound.get({ url, additionalFlags, verbose });
+
+        const streamIn = Inbound[url].get({ url, additionalFlags, verbose });
+
+        /** @param {Buffer} chunk */
+        function onData(chunk) {
+          if (ws.readyState === 1) ws.send(chunk);
+        }
+
         ws.on('close', () => {
           const c = wsServer.clients.size;
           if (verbose)
             console.log(`[rtsp-relay] WebSocket Disconnected ${c} left`);
-          Inbound.kill(c);
+          Inbound[url].kill(c);
+          streamIn.stdout.off('data', onData);
         });
 
-        // @ts-expect-error will fix later
-        streamIn.stdout.on('data', (data, opts) => {
-          if (ws.readyState === 1) ws.send(data, opts);
-        });
+        streamIn.stdout.on('data', onData);
       }
       return handler;
     },

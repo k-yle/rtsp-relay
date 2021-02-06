@@ -3,6 +3,7 @@
 [![Build Status](https://github.com/k-yle/rtsp-relay/workflows/build/badge.svg)](https://github.com/k-yle/rtsp-relay/actions)
 [![Coverage Status](https://coveralls.io/repos/github/k-yle/rtsp-relay/badge.svg?branch=main)](https://coveralls.io/github/k-yle/rtsp-relay?branch=main)
 [![npm version](https://badge.fury.io/js/rtsp-relay.svg)](https://badge.fury.io/js/rtsp-relay)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/rtsp-relay)
 
 This module allows you to view an RTSP stream in your web browser using an existing express.js server.
 
@@ -57,6 +58,24 @@ app.listen(2000);
 ```
 
 Open [http://localhost:2000](http://localhost:2000) in your web browser.
+
+### Usage with many cameras
+
+If you have hundreds of cameras and don't want to define a seperate route for each one, you can use a dynamic URL:
+
+```js
+app.ws('/api/stream/:cameraIP', (ws, req) =>
+  proxy({
+    url: `rtsp://${req.params.cameraIP}:554/feed`,
+  })(ws),
+);
+```
+
+### Usage with many clients
+
+You may see a `MaxListenersExceededWarning` if the relay is re-transmitting 10+ streams at once, or if 10+ clients are watching.
+
+This is expected, and you can silence the warning by adding `process.setMaxListeners(0);` to your code.
 
 ## Contributing
 

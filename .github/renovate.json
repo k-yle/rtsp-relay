@@ -1,0 +1,16 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  "labels": ["dependencies"],
+  "rangeStrategy": "bump",
+  "dependencyDashboard": false,
+  "timezone": "Pacific/Auckland",
+  "schedule": ["every 2 weeks"],
+  "packageRules": [
+    {
+      "matchDepTypes": ["devDependencies"],
+      "groupName": "devDependencies",
+      "automerge": true
+    }
+  ]
+}

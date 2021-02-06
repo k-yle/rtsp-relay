@@ -5,7 +5,7 @@
   "rangeStrategy": "bump",
   "dependencyDashboard": false,
   "timezone": "Pacific/Auckland",
-  "schedule": ["every 2 weeks"],
+  "schedule": ["every 2 weeks on saturday"],
   "packageRules": [
     {
       "matchDepTypes": ["devDependencies"],

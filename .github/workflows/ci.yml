@@ -44,6 +44,10 @@ jobs:
         with:
           github-token: ${{ secrets.github_token }}
 
+      - name: npm build
+        run: |
+          npm run build
+
       - name: npm publish
         if: ${{ github.ref == 'refs/heads/main' }}
         run: |

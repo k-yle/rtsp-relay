@@ -5,11 +5,13 @@
   "license": "MIT",
   "description": "📽 Relay an RTSP stream through an existing express.js server",
   "main": "index.js",
+  "types": "index.d.ts",
   "engines": {
     "node": ">=10.0.0"
   },
   "repository": "https://github.com/k-yle/rtsp-relay",
   "files": [
+    "index.d.ts",
     "index.js"
   ],
   "keywords": [
@@ -26,6 +28,7 @@
     "pretest": "chmod u+x test/rtsp-simple-server",
     "lint": "eslint --format pretty --ext .js --ignore-path .gitignore .",
     "test": "tsc && jest",
+    "build": "tsc index.js --declaration --allowJs --emitDeclarationOnly",
     "trypublish": "npm publish || true"
   },
   "dependencies": {

@@ -85,9 +85,12 @@ class InboundStreamWrapper {
 /** @type {ReturnType<ews>} */
 let wsInstance;
 
-/** @param {Application} app */
-module.exports = (app) => {
-  if (!wsInstance) wsInstance = ews(app);
+/**
+ * @param {Application} app the express application
+ * @param {import("http").Server | import("https").Server} [server] optional - if you use HTTPS you will need to pass in the server
+ */
+module.exports = (app, server) => {
+  if (!wsInstance) wsInstance = ews(app, server);
   const wsServer = wsInstance.getWss();
 
   /**

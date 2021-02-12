@@ -77,6 +77,42 @@ You may see a `MaxListenersExceededWarning` if the relay is re-transmitting 10+ 
 
 This is expected, and you can silence the warning by adding `process.setMaxListeners(0);` to your code.
 
+### SSL
+
+If you want to use HTTPS, you will need to change the stream URL to `wss://`, like the following example:
+
+```js
+const rtspRelay = require('rtsp-relay');
+const express = require('express');
+const https = require('https');
+const fs = require('fs');
+
+const key = fs.readFileSync('./server.key', 'utf8');
+const cert = fs.readFileSync('./server.crt', 'utf8');
+
+const app = express();
+const server = https.createServer({ key, cert }, app);
+
+const { proxy } = rtspRelay(app, server);
+
+app.ws('/stream', proxy({ url: 'rtsp://1.2.3.4:554' }));
+
+app.get('/', (req, res) =>
+  res.send(`
+  <canvas id='canvas'></canvas>
+
+  <script src='https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg@9cf21d3/jsmpeg.min.js'></script>
+  <script>
+    new JSMpeg.Player('wss://' + location.host + '/stream', {
+      canvas: document.getElementById('canvas')
+    })
+  </script>
+`),
+);
+
+server.listen(443);
+```
+
 ## Contributing
 
 We have end-to-end tests to ensure that the module actually works. These tests spin up a RTSP server using [aler9/rtsp-simple-server](https://github.com/aler9/rtsp-simple-server) and create several different streams for testing. These tests are far from complete.

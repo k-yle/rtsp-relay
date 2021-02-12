@@ -1,4 +1,6 @@
 import * as express from 'express';
+import * as https from 'https';
+import { readFileSync } from 'fs';
 import type { Application } from 'express-ws';
 import * as rtspRelay from '..';
 
@@ -32,3 +34,16 @@ app.get('/', (_req, res) =>
 );
 
 app.listen(2000);
+
+// SSL test
+
+const key = readFileSync('./server.key', 'utf8');
+const cert = readFileSync('./server.crt', 'utf8');
+
+const httpsServer = https.createServer({ key, cert }, app);
+
+httpsServer.listen(8443);
+
+const { proxy: proxy2 } = rtspRelay(app, httpsServer);
+
+app.ws('/ssl-test', proxy2({ url: 'rtsp://1.2.3.4:554' }));

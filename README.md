@@ -29,7 +29,7 @@ You don't need to install ffmpeg!
 const express = require('express');
 const app = express();
 
-const { proxy } = require('rtsp-relay')(app);
+const { proxy, scriptUrl } = require('rtsp-relay')(app);
 
 const handler = proxy({
   url: `rtsp://admin:admin@10.0.1.2:554/feed`,

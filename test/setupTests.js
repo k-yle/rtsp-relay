@@ -53,6 +53,12 @@ const app = /** @type {import('express-ws').Application} */ (
 
 const { proxy } = rtspRelay(app);
 
+app.use((_req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+  next();
+});
+
 app.ws(
   '/api/stream/1',
   proxy({
@@ -71,7 +77,28 @@ app.ws(
   }),
 );
 
-// this is an example html page to view the stream
+app.use(express.static('browser'));
+app.use(express.static('dist'));
+
+app.get('/dual-stream', (_req, res) =>
+  res.send(`
+  <canvas></canvas>
+  <canvas></canvas>
+
+  <script src='../index.js'></script>
+  <script>
+    const [c1, c2] = document.querySelectorAll('canvas');
+
+    async function main() {
+      await loadPlayer({ url: 'ws://' + location.host + '/api/stream/2', canvas: c2 });
+      await loadPlayer({ url: 'ws://' + location.host + '/api/stream/1', canvas: c1 });
+    }
+    main();
+  </script>
+`),
+);
+
+// legacy method (need to test that it still works)
 app.get('/:n', (req, res) =>
   res.send(`
   <canvas></canvas>

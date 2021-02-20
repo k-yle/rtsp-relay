@@ -4,9 +4,12 @@
     "checkJs": true,
     "noEmit": true,
     "strict": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "lib": ["es2020"]
+    "lib": ["es2020", "dom"]
   },
-  "include": ["test", "index.js", "types.d.ts"],
+  "include": ["test", "docs", "index.js", "types.d.ts"],
   "exclude": ["**/video/*"]
 }

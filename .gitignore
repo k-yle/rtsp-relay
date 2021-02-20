@@ -2,4 +2,6 @@ node_modules
 coverage
 *.log
 __diff_output__
+dist
+.cache
 index.d.ts

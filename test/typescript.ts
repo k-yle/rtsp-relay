@@ -1,14 +1,15 @@
-import * as express from 'express';
-import * as https from 'https';
+import express from 'express';
+import https from 'https';
 import { readFileSync } from 'fs';
 import type { Application } from 'express-ws';
-import * as rtspRelay from '..';
+import rtspRelay from '..';
+import { loadPlayer } from '../browser';
 
 // If this file compiles, it means that TS definitions are valid
 
 const app = (express() as unknown) as Application;
 
-const { proxy } = rtspRelay(app);
+const { proxy, scriptUrl } = rtspRelay(app);
 
 const handler = proxy({
   url: `rtsp://admin:admin@10.0.1.2:554/feed`,
@@ -24,11 +25,12 @@ app.get('/', (_req, res) =>
   res.send(`
   <canvas id='canvas'></canvas>
 
-  <script src='https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg@9cf21d3/jsmpeg.min.js'></script>
+  <script src='${scriptUrl}'></script>
   <script>
-    new JSMpeg.Player('ws://' + location.host + '/api/stream', {
+    loadPlayer({
+      url: 'ws://' + location.host + '/stream',
       canvas: document.getElementById('canvas')
-    })
+    });
   </script>
 `),
 );
@@ -47,3 +49,20 @@ httpsServer.listen(8443);
 const { proxy: proxy2 } = rtspRelay(app, httpsServer);
 
 app.ws('/ssl-test', proxy2({ url: 'rtsp://1.2.3.4:554' }));
+
+/** Testing browser code */
+
+async function test() {
+  const canvas = document.querySelector('canvas');
+
+  if (canvas) {
+    const player = await loadPlayer({
+      url: `ws://${window.location.host}/stream`,
+      canvas,
+      audio: false,
+    });
+    player.destroy();
+  }
+}
+
+test();

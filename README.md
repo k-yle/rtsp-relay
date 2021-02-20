@@ -45,11 +45,12 @@ app.get('/', (req, res) =>
   res.send(`
   <canvas id='canvas'></canvas>
 
-  <script src='https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg@9cf21d3/jsmpeg.min.js'></script>
+  <script src='${scriptUrl}'></script>
   <script>
-    new JSMpeg.Player('ws://' + location.host + '/api/stream', {
+    loadPlayer({
+      url: 'ws://' + location.host + '/stream',
       canvas: document.getElementById('canvas')
-    })
+    });
   </script>
 `),
 );
@@ -58,6 +59,22 @@ app.listen(2000);
 ```
 
 Open [http://localhost:2000](http://localhost:2000) in your web browser.
+
+## Example using ES6 Imports (e.g. React, Vue)
+
+If you have babel/webpack set up, you can import the `loadPlayer` instead of using a `<script>` tag.
+
+For a react example, see [here](test/react/index.tsx)
+
+```js
+// client side code
+import { loadPlayer } from 'rtsp-relay/browser';
+
+loadPlayer({
+  url: `ws://${location.host}/stream`,
+  canvas: document.getElementById('canvas'),
+});
+```
 
 ### Usage with many cameras
 
@@ -93,7 +110,7 @@ const cert = fs.readFileSync('./server.crt', 'utf8');
 const app = express();
 const server = https.createServer({ key, cert }, app);
 
-const { proxy } = rtspRelay(app, server);
+const { proxy, scriptUrl } = rtspRelay(app, server);
 
 app.ws('/stream', proxy({ url: 'rtsp://1.2.3.4:554' }));
 
@@ -101,11 +118,12 @@ app.get('/', (req, res) =>
   res.send(`
   <canvas id='canvas'></canvas>
 
-  <script src='https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg@9cf21d3/jsmpeg.min.js'></script>
+  <script src='${scriptUrl}'></script>
   <script>
-    new JSMpeg.Player('wss://' + location.host + '/stream', {
+    loadPlayer({
+      url: 'wss://' + location.host + '/stream',
       canvas: document.getElementById('canvas')
-    })
+    });
   </script>
 `),
 );

@@ -3,6 +3,7 @@ const { path: ffmpegPath } = require('@ffmpeg-installer/ffmpeg');
 const { spawn } = require('child_process');
 const ews = require('express-ws');
 const ps = require('ps-node');
+const { version } = require('./package.json');
 
 /**
  * @typedef {{
@@ -101,6 +102,17 @@ module.exports = (app, server) => {
   const Inbound = {};
 
   return {
+    /**
+     * You must include a script tag in the HTML to import this script
+     *
+     * Alternatively, if you have set up a build process for front-end
+     * code, you can import it instead:
+     * ```js
+     * import { loadPlayer } from "rtsp-relay/browser";
+     * ```
+     */
+    scriptUrl: `https://cdn.jsdelivr.net/npm/rtsp-relay@${version}/browser/index.js`,
+
     killAll() {
       ps.lookup({ command: 'ffmpeg' }, (err, list) => {
         if (err) throw err;

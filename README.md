@@ -48,7 +48,7 @@ app.get('/', (req, res) =>
   <script src='${scriptUrl}'></script>
   <script>
     loadPlayer({
-      url: 'ws://' + location.host + '/stream',
+      url: 'ws://' + location.host + '/api/stream',
       canvas: document.getElementById('canvas')
     });
   </script>
@@ -112,7 +112,7 @@ const server = https.createServer({ key, cert }, app);
 
 const { proxy, scriptUrl } = rtspRelay(app, server);
 
-app.ws('/stream', proxy({ url: 'rtsp://1.2.3.4:554' }));
+app.ws('/api/stream', proxy({ url: 'rtsp://1.2.3.4:554' }));
 
 app.get('/', (req, res) =>
   res.send(`
@@ -121,7 +121,7 @@ app.get('/', (req, res) =>
   <script src='${scriptUrl}'></script>
   <script>
     loadPlayer({
-      url: 'wss://' + location.host + '/stream',
+      url: 'wss://' + location.host + '/api/stream',
       canvas: document.getElementById('canvas')
     });
   </script>

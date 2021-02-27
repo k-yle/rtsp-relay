@@ -2,8 +2,8 @@ import express from 'express';
 import https from 'https';
 import { readFileSync } from 'fs';
 import type { Application } from 'express-ws';
-import rtspRelay from '..';
-import { loadPlayer } from '../browser';
+import rtspRelay from 'rtsp-relay';
+import { loadPlayer } from 'rtsp-relay/browser';
 
 // If this file compiles, it means that TS definitions are valid
 

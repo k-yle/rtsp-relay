@@ -70,16 +70,18 @@ class InboundStreamWrapper {
   kill(clientsLeft) {
     if (!this.stream) return; // the stream is currently dead
     if (!clientsLeft) {
-      if (this.verbose)
+      if (this.verbose) {
         console.log('[rtsp-relay] no clients left; destroying stream');
+      }
       this.stream.kill('SIGTERM');
       this.stream = null;
       // next time it is requested it will be recreated
     }
-    if (this.verbose)
+    if (this.verbose) {
       console.log(
         '[rtsp-relay] there are still some clients so not destroying stream',
       );
+    }
   }
 }
 
@@ -132,12 +134,12 @@ module.exports = (app, server) => {
       /** @param {WebSocket} ws */
       function handler(ws) {
         // these should be detected from the source stream
-        const [width, height] = [0, 0];
+        const [width, height] = [0x0, 0x0];
 
-        const streamHeader = Buffer.alloc(8);
+        const streamHeader = Buffer.alloc(0x8);
         streamHeader.write('jsmp');
-        streamHeader.writeUInt16BE(width, 4);
-        streamHeader.writeUInt16BE(height, 6);
+        streamHeader.writeUInt16BE(width, 0x4);
+        streamHeader.writeUInt16BE(height, 0x6);
         ws.send(streamHeader, { binary: true });
 
         if (verbose) console.log('[rtsp-relay] New WebSocket Connection');
@@ -146,13 +148,14 @@ module.exports = (app, server) => {
 
         /** @param {Buffer} chunk */
         function onData(chunk) {
-          if (ws.readyState === 1) ws.send(chunk);
+          if (ws.readyState === ws.OPEN) ws.send(chunk);
         }
 
         ws.on('close', () => {
           const c = wsServer.clients.size;
-          if (verbose)
+          if (verbose) {
             console.log(`[rtsp-relay] WebSocket Disconnected ${c} left`);
+          }
           Inbound[url].kill(c);
           streamIn.stdout.off('data', onData);
         });

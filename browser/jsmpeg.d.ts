@@ -39,21 +39,21 @@ export type PlayerOptions = {
   /** when streaming, size in bytes for the audio decode buffer. Default 128*1024 (128kb). You may have to increase this for very high bitrates. */
   audioBufferSize?: number;
   /** A callback that is called after each decoded and rendered video frame */
-  onVideoDecode?(cb: (decoder: unknown, time: unknown) => void): void;
+  onVideoDecode?(decoder: unknown, time: unknown): void;
   /** A callback that is called after each decoded audio frame */
-  onAudioDecode?(cb: (decoder: unknown, time: unknown) => void): void;
+  onAudioDecode?(decoder: unknown, time: unknown): void;
   /** A callback that is called whenever playback starts */
-  onPlay?(cb: (player: Player) => void);
+  onPlay?(player: Player): void;
   /** A callback that is called whenever playback paused (e.g. when .pause() is called or the source has ended) */
-  onPause?(cb: (player: Player) => void);
+  onPause?(player: Player): void;
   /** A callback that is called when playback has reached the end of the source (only called when loop is false). */
-  onEnded?(cb: (player: Player) => void);
-  /** A callback that is called whenever there's not enough data for playback */
-  onStalled?(cb: (player: Player) => void);
+  onEnded?(player: Player): void;
+  /** @deprecated A callback that is called whenever there's not enough data for playback */
+  onStalled?(player: Player): void;
   /** A callback that is called when source has first received data */
-  onSourceEstablished?(cb: (source: unknown) => void);
+  onSourceEstablished?(source: unknown): void;
   /** A callback that is called when the source has received all data */
-  onSourceCompleted?(cb: (source: unknown) => void);
+  onSourceCompleted?(source: unknown): void;
 };
 
 export class Player {

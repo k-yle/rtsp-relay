@@ -35,6 +35,7 @@ jobs:
           npm test
         env:
           FORCE_COLOR: 1
+          JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE: 1
 
       - name: Upload failed screenshot tests
         uses: actions/upload-artifact@v2

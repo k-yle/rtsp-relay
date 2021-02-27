@@ -25,7 +25,7 @@ rtspServer.on('close', process.exit);
 
 const ffmpeg1 = spawn(
   ffmpegPath,
-  '-re -stream_loop -1 -i test/video/sync-test-1.ts -c copy -f rtsp rtsp://localhost:8554/sync-test-1 -loglevel error'.split(
+  '-re -stream_loop -1 -i test/video/sync-test-1.ts.mp4 -c copy -f rtsp rtsp://localhost:8554/sync-test-1 -loglevel error'.split(
     ' ',
   ),
 );
@@ -36,7 +36,7 @@ ffmpeg1.on('close', process.exit);
 
 const ffmpeg2 = spawn(
   ffmpegPath,
-  '-re -stream_loop -1 -i test/video/sync-test-2.ts -c copy -f rtsp rtsp://localhost:8554/sync-test-2 -loglevel error'.split(
+  '-re -stream_loop -1 -i test/video/sync-test-2.ts.mp4 -c copy -f rtsp rtsp://localhost:8554/sync-test-2 -loglevel error'.split(
     ' ',
   ),
 );

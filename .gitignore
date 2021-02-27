@@ -5,3 +5,4 @@ __diff_output__
 dist
 .cache
 index.d.ts
+.jest*

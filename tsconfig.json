@@ -8,6 +8,10 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "paths": {
+      "rtsp-relay": ["."],
+      "rtsp-relay/*": ["./*"]
+    },
     "lib": ["es2020", "dom"]
   },
   "include": ["test", "docs", "index.js", "types.d.ts"],

@@ -73,6 +73,9 @@ import { loadPlayer } from 'rtsp-relay/browser';
 loadPlayer({
   url: `ws://${location.host}/stream`,
   canvas: document.getElementById('canvas'),
+
+  // optional
+  onDisconnect: () => console.log('Connection lost!'),
 });
 ```
 

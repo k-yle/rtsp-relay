@@ -67,6 +67,10 @@ async function test() {
       url: `ws://${window.location.host}/stream`,
       canvas,
       audio: false,
+      onDisconnect() {
+        console.log('Connection lost!');
+      },
+      disconnectThreshold: 3_000,
     });
     player.destroy();
   }

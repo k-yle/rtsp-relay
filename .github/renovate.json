@@ -5,6 +5,7 @@
   "rangeStrategy": "bump",
   "dependencyDashboard": false,
   "timezone": "Pacific/Auckland",
+  "node": { "enabled": false },
   "schedule": ["every 2 weeks on saturday"],
   "packageRules": [
     {

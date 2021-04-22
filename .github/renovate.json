@@ -6,6 +6,7 @@
   "dependencyDashboard": false,
   "timezone": "Pacific/Auckland",
   "node": { "enabled": false },
+  "ignoreDeps": ["node"],
   "schedule": ["every 2 weeks on saturday"],
   "packageRules": [
     {

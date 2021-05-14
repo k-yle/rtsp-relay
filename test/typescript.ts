@@ -1,13 +1,13 @@
 import express from 'express';
 import https from 'https';
 import { readFileSync } from 'fs';
-import type { Application } from 'express-ws';
 import rtspRelay from 'rtsp-relay';
 import { loadPlayer } from 'rtsp-relay/browser';
+import type { Application } from 'express-ws';
 
 // If this file compiles, it means that TS definitions are valid
 
-const app = (express() as unknown) as Application;
+const app = express() as unknown as Application;
 
 const { proxy, scriptUrl } = rtspRelay(app);
 

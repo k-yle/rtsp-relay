@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.20",
-    "express-ws": "^4.0.0",
+    "express-ws": "^5.0.2",
     "ps-node": "^0.1.6"
   },
   "devDependencies": {

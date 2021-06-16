@@ -18,6 +18,10 @@ const { version } = require('./package.json');
  */
 
 class InboundStreamWrapper {
+  constructor() {
+    this.clients = 0;
+  }
+
   /** @param {Options} props */
   start({ url, additionalFlags = [] }) {
     if (this.verbose) console.log('[rtsp-relay] Creating brand new stream');
@@ -62,8 +66,14 @@ class InboundStreamWrapper {
   /** @param {Options} options */
   get(options) {
     this.verbose = options.verbose;
+    this.clients++;
     if (!this.stream) this.start(options);
     return /** @type {Stream} */ (this.stream);
+  }
+
+  decrement() {
+    this.clients--;
+    return this.clients;
   }
 
   /** @param {number} clientsLeft */
@@ -152,7 +162,7 @@ module.exports = (app, server) => {
         }
 
         ws.on('close', () => {
-          const c = wsServer.clients.size;
+          const c = Inbound[url].decrement();
           if (verbose) {
             console.log(`[rtsp-relay] WebSocket Disconnected ${c} left`);
           }

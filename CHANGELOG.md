@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.4.1 (2021-06-18)
+
+- fix: fix streams not being killed when there are multiple users and multiple streams (#74)
+
 ## 1.4.0 (2021-03-04)
 
 - feat: add `onDisconnect` option to `loadPlayer`

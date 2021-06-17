@@ -66,13 +66,13 @@ class InboundStreamWrapper {
   /** @param {Options} options */
   get(options) {
     this.verbose = options.verbose;
-    this.clients++;
+    this.clients += 1;
     if (!this.stream) this.start(options);
     return /** @type {Stream} */ (this.stream);
   }
 
   decrement() {
-    this.clients--;
+    this.clients -= 1;
     return this.clients;
   }
 

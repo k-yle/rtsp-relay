@@ -99,12 +99,12 @@ This is expected, and you can silence the warning by adding `process.setMaxListe
 
 ### Improving the video quality
 
-Depending on your network configuration, you can try add the following `additionalOptions` to improve the stream quality:
+Depending on your network configuration, you can try add the following `additionalFlags` to improve the stream quality:
 
 <!-- prettier-ignore -->
 ```js
 app.ws('/api/stream', proxy({
-  additionalOptions: [
+  additionalFlags: [
 
     // try this:
     '-rtsp_transport', 'tcp',

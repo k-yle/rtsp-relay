@@ -38,24 +38,24 @@
     "ps-node": "^0.1.6"
   },
   "devDependencies": {
-    "@types/express-ws": "^3.0.0",
-    "@types/jest": "^26.0.23",
-    "@types/jest-image-snapshot": "^4.3.0",
-    "@types/node": "^14.17.4",
-    "@types/ps-node": "^0.1.0",
-    "@types/puppeteer": "^5.4.3",
-    "@types/react": "^17.0.11",
-    "@types/react-dom": "^17.0.8",
-    "eslint": "^7.29.0",
-    "eslint-config-kyle": "^2.49.1",
+    "@types/express-ws": "^3.0.1",
+    "@types/jest": "^26.0.24",
+    "@types/jest-image-snapshot": "^4.3.1",
+    "@types/node": "^14.17.5",
+    "@types/ps-node": "^0.1.1",
+    "@types/puppeteer": "^5.4.4",
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9",
+    "eslint": "^7.30.0",
+    "eslint-config-kyle": "^2.51.1",
     "express": "^4.17.1",
-    "jest": "^27.0.5",
+    "jest": "^27.0.6",
     "jest-image-snapshot": "^4.5.1",
     "parcel-bundler": "^1.12.5",
-    "puppeteer": "^10.0.0",
+    "puppeteer": "^10.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.5"
   },
   "eslintConfig": {
     "extends": "kyle"

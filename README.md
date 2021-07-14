@@ -99,20 +99,14 @@ This is expected, and you can silence the warning by adding `process.setMaxListe
 
 ### Improving the video quality
 
-Depending on your network configuration, you can try add the following `additionalFlags` to improve the stream quality:
+Depending on your network configuration, you can try the following options to improve the stream quality:
 
-<!-- prettier-ignore -->
 ```js
-app.ws('/api/stream', proxy({
-  additionalFlags: [
+// try this:
+app.ws('/api/stream', proxy({ additionalFlags: ['-q', '1'] }));
 
-    // try this:
-    '-rtsp_transport', 'tcp',
-
-    // or this:
-    '-q', '1',
-  ],
-}));
+// or this:
+app.ws('/api/stream', proxy({ transport: 'tcp' }));
 ```
 
 Note that both these methods will use more bandwidth.

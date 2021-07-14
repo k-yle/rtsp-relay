@@ -10,6 +10,7 @@ const { version } = require('./package.json');
  *  url: string;
  *  additionalFlags?: string[];
  *  verbose?: boolean;
+ *  transport?: 'udp' | 'tcp' | 'udp_multicast' | 'http';
  * }} Options
  *
  * @typedef {import("express").Application} Application
@@ -23,12 +24,23 @@ class InboundStreamWrapper {
   }
 
   /** @param {Options} props */
-  start({ url, additionalFlags = [] }) {
+  start({ url, additionalFlags = [], transport }) {
     if (this.verbose) console.log('[rtsp-relay] Creating brand new stream');
+
+    // validate config
+    const txpConfigInvalid = additionalFlags.indexOf('-rtsp_transport');
+    // eslint-disable-next-line no-bitwise
+    if (~txpConfigInvalid) {
+      const val = additionalFlags[0o1 + txpConfigInvalid];
+      console.warn(
+        `[rtsp-relay] (!) Do not specify -rtsp_transport=${val} in additionalFlags, use the option \`transport: '${val}'\``,
+      );
+    }
 
     this.stream = spawn(
       ffmpegPath,
       [
+        ...(transport ? ['-rtsp_transport', transport] : []), // this must come before `-i [url]`, see #82
         '-i',
         url,
         '-f', // force format

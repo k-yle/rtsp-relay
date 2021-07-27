@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.5.1 (2021-07-27)
+
+- fix: fix bug with RTSP transport option (#89)
+
 ## 1.5.0 (2021-07-14)
 
 - feat: add option to specify RTSP transport protocol (#85)

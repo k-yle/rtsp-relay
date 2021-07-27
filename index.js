@@ -147,7 +147,7 @@ module.exports = (app, server) => {
     },
 
     /** @param {Options} props */
-    proxy({ url, additionalFlags = [], verbose }) {
+    proxy({ url, verbose, ...options }) {
       if (!url) throw new Error('URL to rtsp stream is required');
 
       // TODO: node15 use ||=
@@ -166,7 +166,7 @@ module.exports = (app, server) => {
 
         if (verbose) console.log('[rtsp-relay] New WebSocket Connection');
 
-        const streamIn = Inbound[url].get({ url, additionalFlags, verbose });
+        const streamIn = Inbound[url].get({ url, verbose, ...options });
 
         /** @param {Buffer} chunk */
         function onData(chunk) {

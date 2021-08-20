@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@types/express-ws": "^3.0.1",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.0.1",
     "@types/jest-image-snapshot": "^4.3.1",
     "@types/node": "^14.17.9",
     "@types/ps-node": "^0.1.1",

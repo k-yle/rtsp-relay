@@ -121,11 +121,12 @@ const express = require('express');
 const https = require('https');
 const fs = require('fs');
 
-const key = fs.readFileSync('./server.key', 'utf8');
-const cert = fs.readFileSync('./server.crt', 'utf8');
+const key = fs.readFileSync('./privatekey.pem', 'utf8');
+const cert = fs.readFileSync('./fullchain.pem', 'utf8');
+const ca = fs.readFileSync('./chain.pem', 'utf8'); // required for iOS 15+
 
 const app = express();
-const server = https.createServer({ key, cert }, app);
+const server = https.createServer({ key, cert, ca }, app);
 
 const { proxy, scriptUrl } = rtspRelay(app, server);
 

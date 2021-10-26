@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.6.0 (2021-10-27)
+
+- feat: make the [`windowsHide`](https://nodejs.org/api/child_process.html) property configurable (defaults to `true`)
+- chore: run tests on node17, stop testing on node10
+
 ## 1.5.1 (2021-07-27)
 
 - fix: fix bug with RTSP transport option (#89)

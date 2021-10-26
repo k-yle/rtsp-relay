@@ -64,7 +64,7 @@ Open [http://localhost:2000](http://localhost:2000) in your web browser.
 
 If you have babel/webpack set up, you can import the `loadPlayer` instead of using a `<script>` tag.
 
-For a react example, see [here](test/react/index.tsx)
+Example code is available [for react](test/react/index.tsx) and [for angular](test/angular/example.md).
 
 ```js
 // client side code

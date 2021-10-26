@@ -118,7 +118,7 @@ app.get('/:n', (req, res) =>
 
 const server = app.listen(2000, () => console.log('ready'));
 
-global.teardown = () => {
+Reflect.set(global, 'teardown', () => {
   server.close(async () => {
     ffmpeg1.kill();
     ffmpeg2.kill();
@@ -127,4 +127,4 @@ global.teardown = () => {
 
     rtspServer.kill();
   });
-};
+});

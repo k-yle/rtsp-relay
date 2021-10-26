@@ -1,0 +1,36 @@
+<html>
+  <body>
+    <main></main>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script src="./index.js"></script>
+    <script type="text/babel">
+      /* global React, ReactDOM, loadPlayer */
+
+      const App = () => {
+        const canvas = React.useRef(null);
+
+        React.useEffect(() => {
+          if (!canvas.current) throw new Error('Ref is null');
+
+          loadPlayer({
+            url: 'ws://localhost:2000/api/stream/2',
+            canvas: canvas.current,
+          });
+        }, []);
+
+        return <canvas ref={canvas} />;
+      };
+
+      ReactDOM.render(<App />, document.querySelector('main'));
+    </script>
+  </body>
+</html>

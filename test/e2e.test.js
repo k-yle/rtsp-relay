@@ -15,7 +15,7 @@ describe('end-to-end tests', () => {
       waitUntil: 'networkidle2',
     });
 
-    await timeout(1000);
+    await timeout(3000);
 
     const image = await page.screenshot({ fullPage: true });
     expect(image).toMatchImageSnapshot({

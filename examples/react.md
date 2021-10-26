@@ -1,8 +1,7 @@
+```tsx
 import React, { useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-
-// ❗ change this to `import { loadPlayer } from 'rtsp-relay/browser';`
-import { loadPlayer } from '../../browser';
+import { loadPlayer } from 'rtsp-relay/browser';
 
 const App: React.VFC = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -20,3 +19,4 @@ const App: React.VFC = () => {
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
+```

@@ -68,7 +68,7 @@ app.ws('/api/stream/:n', (ws, req) =>
 );
 
 app.use(express.static('browser'));
-app.use(express.static('dist'));
+app.use(express.static('test/static'));
 
 app.get('/dual-stream', (_req, res) =>
   res.send(`
@@ -89,7 +89,11 @@ app.get('/dual-stream', (_req, res) =>
 );
 
 // legacy method (need to test that it still works)
-app.get('/:n', (req, res) =>
+app.get('/:n', (req, res) => {
+  if (Number.isNaN(+req.params.n)) {
+    res.status(404).send();
+    return;
+  }
   res.send(`
   <canvas></canvas>
   <pre></pre>
@@ -113,8 +117,8 @@ app.get('/:n', (req, res) =>
     });
     log("camera ${req.params.n}");
   </script>
-`),
-);
+`);
+});
 
 const server = app.listen(2000, () => console.log('ready'));
 

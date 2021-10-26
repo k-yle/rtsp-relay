@@ -4,7 +4,6 @@
     "checkJs": true,
     "noEmit": true,
     "strict": true,
-    "jsx": "react",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,

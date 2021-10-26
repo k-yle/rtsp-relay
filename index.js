@@ -11,6 +11,7 @@ const { version } = require('./package.json');
  *  additionalFlags?: string[];
  *  verbose?: boolean;
  *  transport?: 'udp' | 'tcp' | 'udp_multicast' | 'http';
+ * windowsHide?: boolean;
  * }} Options
  *
  * @typedef {import("express").Application} Application
@@ -24,7 +25,7 @@ class InboundStreamWrapper {
   }
 
   /** @param {Options} props */
-  start({ url, additionalFlags = [], transport }) {
+  start({ url, additionalFlags = [], transport, windowsHide = true }) {
     if (this.verbose) console.log('[rtsp-relay] Creating brand new stream');
 
     // validate config
@@ -52,7 +53,7 @@ class InboundStreamWrapper {
         ...additionalFlags,
         '-',
       ],
-      { detached: false },
+      { detached: false, windowsHide },
     );
     this.stream.stderr.on('data', () => {});
     this.stream.stderr.on('error', (e) => console.log('err:error', e));

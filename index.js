@@ -99,7 +99,9 @@ class InboundStreamWrapper {
       this.stream.kill('SIGTERM');
       this.stream = null;
       // next time it is requested it will be recreated
+      return;
     }
+
     if (this.verbose) {
       console.log(
         '[rtsp-relay] there are still some clients so not destroying stream',

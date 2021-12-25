@@ -45,7 +45,7 @@
     "@types/ps-node": "^0.1.1",
     "@types/puppeteer": "^5.4.4",
     "eslint": "^8.5.0",
-    "eslint-config-kyle": "^7.13.0",
+    "eslint-config-kyle": "^7.13.2",
     "express": "^4.17.2",
     "jest": "^27.4.5",
     "jest-image-snapshot": "^4.5.1",

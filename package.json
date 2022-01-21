@@ -41,16 +41,16 @@
     "@types/express-ws": "^3.0.1",
     "@types/jest": "^27.4.0",
     "@types/jest-image-snapshot": "^4.3.1",
-    "@types/node": "^16.11.19",
+    "@types/node": "^16.11.21",
     "@types/ps-node": "^0.1.1",
     "@types/puppeteer": "^5.4.4",
-    "eslint": "^8.6.0",
-    "eslint-config-kyle": "^7.15.0",
+    "eslint": "^8.7.0",
+    "eslint-config-kyle": "^7.18.1",
     "express": "^4.17.2",
     "jest": "^27.4.7",
     "jest-image-snapshot": "^4.5.1",
-    "puppeteer": "^13.0.1",
-    "typescript": "^4.5.4"
+    "puppeteer": "^13.1.1",
+    "typescript": "^4.5.5"
   },
   "eslintConfig": {
     "extends": "kyle"

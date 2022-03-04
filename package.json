@@ -39,18 +39,18 @@
   },
   "devDependencies": {
     "@types/express-ws": "^3.0.1",
-    "@types/jest": "^27.4.0",
+    "@types/jest": "^27.4.1",
     "@types/jest-image-snapshot": "^4.3.1",
-    "@types/node": "^16.11.25",
+    "@types/node": "^16.11.26",
     "@types/ps-node": "^0.1.1",
-    "@types/puppeteer": "^5.4.4",
-    "eslint": "^8.9.0",
-    "eslint-config-kyle": "^8.5.1",
+    "@types/puppeteer": "^5.4.5",
+    "eslint": "^8.10.0",
+    "eslint-config-kyle": "^8.11.1",
     "express": "^4.17.3",
     "jest": "^27.5.1",
     "jest-image-snapshot": "^4.5.1",
-    "puppeteer": "^13.3.2",
-    "typescript": "^4.5.5"
+    "puppeteer": "^13.4.1",
+    "typescript": "^4.6.2"
   },
   "eslintConfig": {
     "extends": "kyle"

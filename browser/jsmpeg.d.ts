@@ -89,8 +89,7 @@ export class Player {
   readonly paused: boolean;
 }
 
-// TODO: this shouldn't be in the code that gets published
-
+/** @internal */
 declare global {
   interface Window {
     loadPlayer: unknown;

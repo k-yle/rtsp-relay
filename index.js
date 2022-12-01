@@ -39,7 +39,7 @@ class InboundStreamWrapper {
     }
 
     this.stream = spawn(
-      ffmpegPath,
+      "ffmpeg",
       [
         ...(transport ? ['-rtsp_transport', transport] : []), // this must come before `-i [url]`, see #82
         '-i',

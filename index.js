@@ -1,5 +1,5 @@
 // @ts-check
-//const { path: ffmpegPath } = require('@ffmpeg-installer/ffmpeg');
+const { path: ffmpegPath } = require('@ffmpeg-installer/ffmpeg');
 const { spawn } = require('child_process');
 const ews = require('express-ws');
 const ps = require('ps-node');
@@ -11,7 +11,8 @@ const { version } = require('./package.json');
  *  additionalFlags?: string[];
  *  verbose?: boolean;
  *  transport?: 'udp' | 'tcp' | 'udp_multicast' | 'http';
- * windowsHide?: boolean;
+ *  windowsHide?: boolean;
+ *  ffmpegNode?: boolean;
  * }} Options
  *
  * @typedef {import("express").Application} Application
@@ -25,7 +26,7 @@ class InboundStreamWrapper {
   }
 
   /** @param {Options} props */
-  start({ url, additionalFlags = [], transport, windowsHide = true }) {
+  start({ url, additionalFlags = [], transport, windowsHide = true, ffmpegNode=false }) {
     if (this.verbose) console.log('[rtsp-relay] Creating brand new stream');
 
     // validate config
@@ -39,7 +40,7 @@ class InboundStreamWrapper {
     }
 
     this.stream = spawn(
-      "ffmpeg",
+      ffmpegNode? ffmpegPath: "ffmpeg",
       [
         ...(transport ? ['-rtsp_transport', transport] : []), // this must come before `-i [url]`, see #82
         '-i',

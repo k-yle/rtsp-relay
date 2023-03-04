@@ -55,8 +55,12 @@ export type PlayerOptions = {
   /** A callback that is called when the source has received all data */
   onSourceCompleted?(source: unknown): void;
 
-  /** A callback that is called when the stream disconnects, i.e. when no data has been received for `disconnectThreshold` milliseconds */
-  onDisconnect?(): void;
+  /**
+   * A callback that is called when the stream disconnects, i.e. when no data has been received for `disconnectThreshold` milliseconds.
+   *
+   * The callback contains the {@link Player} object, so that you can call `player.destroy()` if required.
+   */
+  onDisconnect?(player: Player): void;
   /** The time (in milliseconds) to wait before treating a stream as disconnected. Default: 3000ms (3 seconds) */
   disconnectThreshold?: number;
 };

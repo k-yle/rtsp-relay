@@ -73,7 +73,7 @@
         if (onDisconnect) {
           const i = setInterval(() => {
             if (Date.now() - lastRx > disconnectThreshold) {
-              onDisconnect();
+              onDisconnect(player);
               clearInterval(i);
             }
           }, disconnectThreshold / 2);

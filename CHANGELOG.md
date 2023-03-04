@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.7.0 (2023-03-04)
+
 - feat: pass the `player` object to the `onDisconnect` callback
 
 ## 1.6.1 (2021-11-04)

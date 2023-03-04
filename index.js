@@ -30,7 +30,6 @@ class InboundStreamWrapper {
 
     // validate config
     const txpConfigInvalid = additionalFlags.indexOf('-rtsp_transport');
-    // eslint-disable-next-line no-bitwise
     if (~txpConfigInvalid) {
       const val = additionalFlags[0o1 + txpConfigInvalid];
       console.warn(

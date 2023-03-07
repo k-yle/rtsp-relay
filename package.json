@@ -45,11 +45,11 @@
     "@types/ps-node": "^0.1.1",
     "@types/puppeteer": "^5.4.7",
     "eslint": "^8.35.0",
-    "eslint-config-kyle": "^9.39.2",
+    "eslint-config-kyle": "^9.40.1",
     "express": "^4.18.2",
-    "jest": "^29.4.3",
+    "jest": "^29.5.0",
     "jest-image-snapshot": "^6.1.0",
-    "puppeteer": "^19.7.2",
+    "puppeteer": "^19.7.3",
     "typescript": "^4.9.5"
   },
   "eslintConfig": {

@@ -41,7 +41,7 @@
     "@types/express-ws": "^3.0.1",
     "@types/jest": "^29.5.5",
     "@types/jest-image-snapshot": "^6.2.1",
-    "@types/node": "^18.17.16",
+    "@types/node": "^18.17.17",
     "@types/ps-node": "^0.1.1",
     "@types/puppeteer": "^5.4.7",
     "eslint": "^8.49.0",

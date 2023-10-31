@@ -7,7 +7,7 @@
   "timezone": "Pacific/Auckland",
   "node": { "enabled": false },
   "ignoreDeps": ["node"],
-  "schedule": ["every 6 weeks on saturday"],
+  "schedule": ["every 8 weeks on saturday"],
   "packageRules": [
     {
       "matchDepTypes": ["devDependencies"],

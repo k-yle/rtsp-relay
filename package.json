@@ -33,12 +33,13 @@
     "trypublish": "npm publish || true"
   },
   "dependencies": {
-    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "express-ws": "^5.0.2",
+    "ffmpeg-static": "^5.2.0",
     "ps-node": "^0.1.6"
   },
   "devDependencies": {
     "@types/express-ws": "^3.0.3",
+    "@types/ffmpeg-static": "^3.0.2",
     "@types/jest": "^29.5.6",
     "@types/jest-image-snapshot": "^6.2.2",
     "@types/node": "^20.8.9",

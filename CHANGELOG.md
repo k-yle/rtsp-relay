@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- feat: update ffmpeg from v4.1 (2018) to v6.0 (2023) to support HEVC streams (#52, #81, #171, #235)
+- chore: run tests on node21, stop testing on node14
+
 ## 1.7.0 (2023-03-04)
 
 - feat: pass the `player` object to the `onDisconnect` callback

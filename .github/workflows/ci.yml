@@ -38,7 +38,7 @@ jobs:
           JEST_IMAGE_SNAPSHOT_TRACK_OBSOLETE: 1
 
       - name: Upload failed screenshot tests
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: screenshots

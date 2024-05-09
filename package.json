@@ -30,7 +30,7 @@
     "lint": "eslint --format pretty --ext .js,ts,.tsx --ignore-path .gitignore .",
     "test": "tsc && jest --runInBand",
     "build": "tsc index.js browser/index.js --declaration --allowJs --emitDeclarationOnly --resolveJsonModule",
-    "trypublish": "npm publish || true"
+    "trypublish": "npm publish --provenance || true"
   },
   "dependencies": {
     "express-ws": "^5.0.2",

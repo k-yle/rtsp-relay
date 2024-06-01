@@ -14,6 +14,7 @@ const { version } = require('./package.json');
  *  verbose?: boolean;
  *  transport?: 'udp' | 'tcp' | 'udp_multicast' | 'http';
  * windowsHide?: boolean;
+ *  useNativeFFmpeg?: boolean;
  * }} Options
  *
  * @typedef {import("express").Application} Application
@@ -27,7 +28,13 @@ class InboundStreamWrapper {
   }
 
   /** @param {Options} props */
-  start({ url, additionalFlags = [], transport, windowsHide = true }) {
+  start({
+    url,
+    additionalFlags = [],
+    transport,
+    windowsHide = true,
+    useNativeFFmpeg,
+  }) {
     if (this.verbose) console.log('[rtsp-relay] Creating brand new stream');
 
     // validate config
@@ -40,7 +47,7 @@ class InboundStreamWrapper {
     }
 
     this.stream = spawn(
-      ffmpegPath,
+      useNativeFFmpeg ? 'ffmpeg' : ffmpegPath,
       [
         ...(transport ? ['-rtsp_transport', transport] : []), // this must come before `-i [url]`, see #82
         '-i',

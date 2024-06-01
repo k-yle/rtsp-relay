@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- feat: added new option called `useNativeFFmpeg` to bypass the bundled version of ffmpeg
+## 1.9.0 (2024-06-01)
+
+- feat: added new option called `useNativeFFmpeg` to bypass the bundled version of ffmpeg (#262)
 - fix: issue where the video was invisible (#202)
 
 ## 1.8.0 (2023-10-31)

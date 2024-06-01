@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- fix: issue where the video was invisible (#202)
+
 ## 1.8.0 (2023-10-31)
 
 - feat: update ffmpeg from v4.1 (2018) to v6.0 (2023) to support HEVC streams (#52, #81, #171, #235)

@@ -57,6 +57,15 @@
                 lastRx = Date.now();
               }
             : undefined,
+
+          // MutationObserver doesn't always work, see #202
+          onSourceEstablished: (...args) => {
+            // eslint-disable-next-line no-param-reassign
+            options.canvas.style.display = originalDisplay;
+            resolve(player);
+            return options?.onSourceEstablished?.(...args);
+          },
+
           ...options,
         });
 
